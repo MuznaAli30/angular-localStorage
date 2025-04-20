@@ -1,3 +1,23 @@
 <h2>Welcome, {{ user.username }}!</h2>
 <p>This is your protected dashboard.</p>
 <button (click)="logout()">Logout</button>
+
+<hr>
+
+<h3>All Registered Users</h3>
+<ul>
+  <li *ngFor="let u of users; let i = index">
+    <div *ngIf="editingIndex !== i">
+      Username: {{ u.username }} | Password: {{ u.password }}
+      <button (click)="startEditing(i)">Edit</button>
+      <button (click)="deleteUser(i)">Delete</button>
+    </div>
+
+    <div *ngIf="editingIndex === i">
+      <input [(ngModel)]="editedUsername" placeholder="Username" />
+      <input [(ngModel)]="editedPassword" placeholder="Password" type="password" />
+      <button (click)="updateUser()">Save</button>
+      <button (click)="cancelEdit()">Cancel</button>
+    </div>
+  </li>
+</ul>

@@ -35,4 +35,32 @@ export class AuthService {
   getLoggedInUser(): any {
     return JSON.parse(localStorage.getItem('loggedInUser') || '{}');
   }
+
+  updateUser(index: number, updatedUser: any): void {
+    const users = this.getUsers();
+    users[index] = updatedUser;
+    localStorage.setItem('users', JSON.stringify(users));
+
+    const loggedInUser = this.getLoggedInUser();
+    if (loggedInUser.username === updatedUser.username) {
+      localStorage.setItem('loggedInUser', JSON.stringify(updatedUser));
+    }
+  }
+
+  deleteUser(index: number): void {
+    const users = this.getUsers();
+    users.splice(index, 1);
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+  
+  updateUserByUsername(username: string, updatedUser: any): void {
+    const users = this.getUsers();
+    const index = users.findIndex(u => u.username === username);
+    if (index !== -1) {
+      users[index] = updatedUser;
+      localStorage.setItem('users', JSON.stringify(users));
+      localStorage.setItem('loggedInUser', JSON.stringify(updatedUser));
+    }
+  }
+  
 }
